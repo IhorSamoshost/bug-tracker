@@ -1,11 +1,4 @@
-# Default ignored files
-/shelf/
-/.idea/workspace.xml
-# Datasource local storage ignored files
-/../../../../../../:\IHOR\EAPprojects\TeamProjects\bug-tracker\.idea/dataSources/
-/dataSources.local.xml
-# Editor-based HTTP Client requests
-/httpRequests/
 .idea/
 out/
 *.iml
+*.class
