@@ -1,7 +1,7 @@
-import view.LoginMenu;
+import view.DataStorageMenu;
 
 public class Main {
     public static void main(String[] args) {
-        new LoginMenu().show();
+        new DataStorageMenu().show();
     }
 }
