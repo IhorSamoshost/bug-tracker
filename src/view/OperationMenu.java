@@ -28,7 +28,7 @@ public class OperationMenu implements Menu {
 
     @Override
     public void show() {
-        System.out.println("To select the operation type enter the corresponding number:");
+        System.out.println("\nTo select the operation type input the corresponding number:");
         while (true) {
             for (String kind : jobKinds) {
                 System.out.println(kind);
@@ -47,6 +47,8 @@ public class OperationMenu implements Menu {
                 case "0":
                     exitProgram();
                     break;
+                default:
+                    System.out.println("\nYou input incorrect number! Try again:");
             }
         }
     }

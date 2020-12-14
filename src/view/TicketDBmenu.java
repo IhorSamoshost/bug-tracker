@@ -1,5 +1,6 @@
 package view;
 
+import model.Ticket;
 import model.User;
 import service.TicketService;
 import service.UserService;
@@ -33,7 +34,7 @@ public class TicketDBmenu implements Menu {
 
     @Override
     public void show() {
-        System.out.println("To select the operation with user info enter the corresponding number:");
+        System.out.println("\nTo select the operation with user info enter the corresponding number:");
         while (true) {
             for (String op : ticketOperations) {
                 System.out.println(op);
@@ -41,10 +42,10 @@ public class TicketDBmenu implements Menu {
             System.out.println("Input your selected operation's number: ");
             switch (scanner.nextLine()) {
                 case "1":
-                    ticketService.create(user);
+                    createSubMenu();
                     break;
                 case "2":
-                    ticketService.edit(receiveTicketInfoSubMenu());
+                    editSubMenu();
                     break;
                 case "3":
                     ticketService.find(receiveTicketInfoSubMenu());
@@ -67,8 +68,18 @@ public class TicketDBmenu implements Menu {
                 case "0":
                     exitProgram();
                     break;
+                default:
+                    System.out.println("\nYou input incorrect number! Try again:");
             }
         }
+    }
+
+    private void createSubMenu() {
+        ticketService.create(new Ticket());
+    }
+
+    private void editSubMenu() {
+        ticketService.edit(new Ticket(), new Ticket());
     }
 
     public String receiveTicketInfoSubMenu() {

@@ -12,7 +12,7 @@ public class LoginMenu implements Menu {
     private TicketService ticketService;
 
     String[] enterItems = new String[]{
-            "1. Login of a registered user",
+            "1. Log in of a registered user",
             "2. Registration of a new user",
             "3. Back to method of storing data in the computer memory selection menu",
             "0. Exit"
@@ -26,9 +26,9 @@ public class LoginMenu implements Menu {
 
     @Override
     public void show() {
-        System.out.println("To select a method for logging in the application,\n" +
-                "input the corresponding number:");
         while (true) {
+            System.out.println("\nTo select a way to log in the application,\n" +
+                    "input the corresponding number:");
             for (String item : enterItems) {
                 System.out.println(item);
             }
@@ -38,14 +38,7 @@ public class LoginMenu implements Menu {
                     loginSubMenu();
                     break;
                 case "2":
-                    Response<User> registerResponse = userService.register();
-                    if (registerResponse.isSuccess()) {
-                        User user = registerResponse.getData();
-                        System.out.println(registerResponse.getResultMessage());
-                        new OperationMenu(scanner, userService, ticketService, user).show();
-                    } else {
-                        System.out.println(registerResponse.getResultMessage());
-                    }
+                    registerSubMenu();
                     break;
                 case "3":
                     back();
@@ -53,6 +46,8 @@ public class LoginMenu implements Menu {
                 case "0":
                     exitProgram();
                     break;
+                default:
+                    System.out.println("\nYou input incorrect number! Try again:");
             }
         }
     }
@@ -64,11 +59,31 @@ public class LoginMenu implements Menu {
         String password = scanner.nextLine();
         Response<User> loginResponse = userService.login(login, password);
         if (loginResponse.isSuccess()) {
-            User user = loginResponse.getData();
             System.out.println(loginResponse.getResultMessage());
-            new OperationMenu(scanner, userService, ticketService, user).show();
+            new OperationMenu(scanner, userService, ticketService, loginResponse.getData()).show();
         } else {
             System.out.println(loginResponse.getResultMessage());
+        }
+    }
+
+    private void registerSubMenu() {
+        String login;
+        System.out.println("Input your login:");
+        while (true) {
+            login = scanner.nextLine();
+            if (userService.getUserDao().getUserByName(login) == null) break;
+            System.out.println("User with this login is already registered in the database.\n" +
+                    "Try input other login:");
+        }
+        System.out.println("Input your password:");
+        String password = scanner.nextLine();
+        User newUser = new User(login, password);
+        Response<User> registerResponse = userService.register(newUser);
+        if (registerResponse.isSuccess()) {
+            System.out.println(registerResponse.getResultMessage());
+            new OperationMenu(scanner, userService, ticketService, registerResponse.getData()).show();
+        } else {
+            System.out.println(registerResponse.getResultMessage());
         }
     }
 
