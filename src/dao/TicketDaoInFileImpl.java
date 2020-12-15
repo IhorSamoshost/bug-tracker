@@ -14,27 +14,15 @@ public class TicketDaoInFileImpl implements TicketDao{
     }
 
     @Override
+    public void updateTicket(Ticket oldTicket, Ticket newTicket) {
+
+    }
+
+    @Override
     public void saveTicket(Ticket ticket) {
         File file = new File(PATH);
         ObjectOutputStream out;
-        // Determine whether the file exists to determine which objectoutputstream to use
-        if (file.isFile()) {
-            try {
-                out = new AppendableObjectOutputStream(new FileOutputStream(file,true));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("DDDDDDDDDD");
 
-
-//        try(AppendableObjectOutputStream locFile = new AppendableObjectOutputStream(new FileOutputStream(PATH,true))){
-//            locFile.writeObject(ticket);
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
-
-        }
     }
 
     @Override
@@ -91,51 +79,16 @@ public class TicketDaoInFileImpl implements TicketDao{
 
 static class AppendableObjectOutputStream extends ObjectOutputStream {
 
-    private boolean append;
-    private boolean initialized;
-    private DataOutputStream dout;
-
     public AppendableObjectOutputStream(OutputStream out) throws IOException {
         super(out);
     }
 
     @Override
     protected void writeStreamHeader() throws IOException {
-
+        reset();
     }
 
 }
 }
-
-//public class AppendableObjectOutputStream extends ObjectOutputStream {
-//
-//    private boolean append;
-//    private boolean initialized;
-//    private DataOutputStream dout;
-//
-//    protected AppendableObjectOutputStream(boolean append) throws IOException, SecurityException {
-//        super();
-//        this.append = append;
-//        this.initialized = true;
-//    }
-//
-//    public AppendableObjectOutputStream(OutputStream out, boolean append) throws IOException {
-//        super(out);
-//        this.append = append;
-//        this.initialized = true;
-//        this.dout = new DataOutputStream(out);
-//        this.writeStreamHeader();
-//    }
-//
-//    @Override
-//    protected void writeStreamHeader() throws IOException {
-//        if (!this.initialized || this.append) return;
-//        if (dout != null) {
-//            dout.writeShort(STREAM_MAGIC);
-//            dout.writeShort(STREAM_VERSION);
-//        }
-//    }
-//
-//}
 
 

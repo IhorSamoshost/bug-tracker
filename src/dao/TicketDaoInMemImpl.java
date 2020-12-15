@@ -1,6 +1,7 @@
 package dao;
 
 import model.Ticket;
+
 import java.util.*;
 
 //Реализация операций с базой тикетов, хранящейся в оперативной памяти (in RAM)
@@ -42,7 +43,7 @@ public class TicketDaoInMemImpl implements TicketDao {
     //it's better to return boolean ???
     @Override
     public Ticket deleteTicket(Ticket ticket) {
-          return  deleteTicket(ticket.getName());
+        return deleteTicket(ticket.getName());
 //        if(this.tickets.contains(ticket)){
 //            this.tickets.remove(ticket);
 //            return ticket;
@@ -53,5 +54,14 @@ public class TicketDaoInMemImpl implements TicketDao {
     @Override
     public Ticket deleteTicket(String name) {
         return this.tickets.remove(name);
+    }
+
+    @Override
+    public void updateTicket(Ticket oldTicket, Ticket newTicket) {
+        if (this.tickets.containsKey(oldTicket.getName())) {
+            this.tickets.remove(oldTicket.getName());
+            this.tickets.put(newTicket.getName(), newTicket);
+        }
+
     }
 }
