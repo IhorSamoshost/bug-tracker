@@ -48,9 +48,6 @@ public class Ticket implements Serializable {
     }
 
     public void setName(String name) {
-        if (name.isBlank()) {
-            throw new InvalidParameterException();
-        }
         this.name = name;
     }
 
@@ -59,9 +56,6 @@ public class Ticket implements Serializable {
     }
 
     public void setDescription(String description) {
-        if (description.isBlank()) {
-            throw new InvalidParameterException();
-        }
         this.description = description;
     }
 
@@ -118,13 +112,26 @@ public class Ticket implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return name.equals(ticket.name);
+        return name.equals(ticket.name) && Objects.equals(description, ticket.description) && Objects.equals(assignee, ticket.assignee) && Objects.equals(reporter, ticket.reporter) && status == ticket.status && priority == ticket.priority;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, description, assignee, reporter, status, priority);
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Ticket ticket = (Ticket) o;
+//        return name.equals(ticket.name);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(name);
+//    }
 
     @Override
     public String toString() {
