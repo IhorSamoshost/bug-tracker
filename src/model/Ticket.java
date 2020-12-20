@@ -120,54 +120,30 @@ public class Ticket implements Serializable {
         return Objects.hash(name, description, assignee, reporter, status, priority);
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Ticket ticket = (Ticket) o;
-//        return name.equals(ticket.name);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(name);
-//    }
-
     @Override
     public String toString() {
-        String result = "\n\tTicket "+this.name.toUpperCase();
-        if(this.description  != null){
-            result = result+" \nDescription: "+this.description;
+        String result = "\n\tTicket " + this.name.toUpperCase();
+        if (this.description != null) {
+            result = result + " \nDescription: " + this.description;
         }
-        if(this.assignee != null){
-            result = result + "\nAssignee: "+this.assignee;
+        if (this.assignee != null) {
+            result = result + "\nAssignee: " + this.assignee;
         }
-        if(this.reporter != null){
-            result = result + "\nReporter: "+this.reporter;
+        if (this.reporter != null) {
+            result = result + "\nReporter: " + this.reporter;
         }
-        if(this.status != null){
-            result = result + "\nStatus: "+this.status;
+        if (this.status != null) {
+            result = result + "\nStatus: " + this.status;
         }
-        if(this.priority != null){
-            result = result + "\nPriority: "+this.priority;
+        if (this.priority != null) {
+            result = result + "\nPriority: " + this.priority;
         }
-        if(this.spentTime != null){
-            result = result + "\nSpent time: "+this.spentTime.getTime();
+        if (this.spentTime != null) {
+            result = result + "\nSpent time: " + this.spentTime.getTime();
         }
-        if(this.estimatedTime != null){
-            result = result + "\nEstimated time: "+this.estimatedTime.getTime();
+        if (this.estimatedTime != null) {
+            result = result + "\nEstimated time: " + this.estimatedTime.getTime();
         }
         return result;
-
-//                "Ticket{" +
-//                "name='" + name + '\'' +
-//                ", description='" + description + '\'' +
-//                ", assignee=" + assignee +
-//                ", reporter=" + reporter +
-//                ", status=" + status +
-//                ", priority=" + priority +
-//                ", spentTime=" + spentTime +
-//                ", estimatedTime=" + estimatedTime +
-//                '}';
     }
 }
