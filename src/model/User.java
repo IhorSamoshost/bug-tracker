@@ -1,13 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private String userName;
     private String password;
-
-    public User() {
-    }
 
     public User(String userName, String password) {
         this.userName = userName;
@@ -35,13 +33,12 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(userName, user.userName) &&
-                Objects.equals(password, user.password);
+        return userName.equals(user.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName, password);
+        return Objects.hash(userName);
     }
 
     @Override

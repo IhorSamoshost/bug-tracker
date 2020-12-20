@@ -27,21 +27,17 @@ public class UserDaoInMemImpl implements UserDao{
 
     @Override
     public void saveUser(User user) {
-        if(getUserByName(user.getUserName()) == null) {
-            users.add(user);
-        }
+         users.add(user);
     }
 
     @Override
     public void updateUser(User oldUser, User newUser) {
         int userIndex = users.indexOf(oldUser);
-        if(userIndex >= 0) {
-            users.set(userIndex, newUser);
-        }
+        users.set(userIndex,newUser);
     }
 
     @Override
-    public void deleteUser(User user) {
+    public void deleteUser(User user){
         users.remove(user);
     }
 }
