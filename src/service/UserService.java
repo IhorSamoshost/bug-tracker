@@ -3,7 +3,6 @@ package service;
 import dao.UserDao;
 import model.User;
 import view.Response;
-
 import java.util.List;
 
 public interface UserService {
