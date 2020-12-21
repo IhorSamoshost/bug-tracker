@@ -7,10 +7,10 @@ import service.UserService;
 import java.util.Scanner;
 
 public class OperationMenu implements Menu {
-    private Scanner scanner;
-    private UserService userService;
-    private TicketService ticketService;
-    private User user;
+    private final Scanner scanner;
+    private final UserService userService;
+    private final TicketService ticketService;
+    private final User user;
 
     String[] jobKinds = new String[]{
             "1. Operations with the user base",
@@ -28,7 +28,7 @@ public class OperationMenu implements Menu {
 
     @Override
     public void show() {
-        System.out.println("\nTo select the operation type input the corresponding number:");
+        System.out.println("To select the operation type input the corresponding number:");
         while (true) {
             for (String kind : jobKinds) {
                 System.out.println(kind);
