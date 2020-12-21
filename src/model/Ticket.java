@@ -158,12 +158,8 @@ public class Ticket implements Serializable {
         if (this.priority != null) {
             result = result + "\nPriority: " + this.priority;
         }
-        if (this.spentTime != 0) {
-            result = result + "\nSpent time: " + this.spentTime;
-        }
-        if (this.estimatedTime != 0) {
-            result = result + "\nEstimated time: " + this.estimatedTime;
-        }
+        result = result + "\nSpent time: " + this.spentTime;
+        result = result + "\nEstimated time: " + this.estimatedTime;
         if (this.starting != null) {
             result = result + "\nStart: " + this.starting.getTime();
         }
