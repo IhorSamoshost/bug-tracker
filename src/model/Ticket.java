@@ -4,7 +4,6 @@ import model.enums.Priority;
 import model.enums.Status;
 
 import java.io.Serializable;
-import java.security.InvalidParameterException;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -17,7 +16,7 @@ public class Ticket implements Serializable {
     private Priority priority;
     private int spentTime;
     private int estimatedTime;
-    private Calendar starting;
+    private Calendar startingDate;
     private Calendar deadline;
 
     public Ticket() {
@@ -34,7 +33,7 @@ public class Ticket implements Serializable {
 
     public Ticket(String name, String description, User assignee, User reporter,
                   Status status, Priority priority,
-                  int spentTime, int estimatedTime, Calendar starting, Calendar deadline) {
+                  int spentTime, int estimatedTime, Calendar startingDate, Calendar deadline) {
         this.name = name;
         this.description = description;
         this.assignee = assignee;
@@ -43,7 +42,7 @@ public class Ticket implements Serializable {
         this.priority = priority;
         this.spentTime = spentTime;
         this.estimatedTime = estimatedTime;
-        this.starting = starting;
+        this.startingDate = startingDate;
         this.deadline = deadline;
     }
 
@@ -111,12 +110,12 @@ public class Ticket implements Serializable {
         this.estimatedTime = estimatedTime;
     }
 
-    public Calendar getStarting() {
-        return starting;
+    public Calendar getStartingDate() {
+        return startingDate;
     }
 
-    public void setStarting(Calendar starting) {
-        this.starting = starting;
+    public void setStartingDate(Calendar startingDate) {
+        this.startingDate = startingDate;
     }
 
     public Calendar getDeadline() {
@@ -160,8 +159,8 @@ public class Ticket implements Serializable {
         }
         result = result + "\nSpent time: " + this.spentTime;
         result = result + "\nEstimated time: " + this.estimatedTime;
-        if (this.starting != null) {
-            result = result + "\nStart: " + this.starting.getTime();
+        if (this.startingDate != null) {
+            result = result + "\nStart: " + this.startingDate.getTime();
         }
         if (this.deadline != null) {
             result = result + "\nDeadline: " + this.deadline.getTime();

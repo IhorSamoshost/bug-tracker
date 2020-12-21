@@ -52,7 +52,7 @@ public class TicketBuilder {
         return this;
     }
     public TicketBuilder setStartedDate(Calendar date){
-        this.ticket.setStarting(date);
+        this.ticket.setStartingDate(date);
         return this;
     }
 
