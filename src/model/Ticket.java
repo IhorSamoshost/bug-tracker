@@ -15,8 +15,10 @@ public class Ticket implements Serializable {
     private User reporter;// must be serializable
     private Status status;
     private Priority priority;
-    private Calendar spentTime;
-    private Calendar estimatedTime;
+    private int spentTime;
+    private int estimatedTime;
+    private Calendar starting;
+    private Calendar deadline;
 
     public Ticket() {
     }
@@ -32,7 +34,7 @@ public class Ticket implements Serializable {
 
     public Ticket(String name, String description, User assignee, User reporter,
                   Status status, Priority priority,
-                  Calendar spentTime, Calendar estimatedTime) {
+                  int spentTime, int estimatedTime, Calendar starting, Calendar deadline) {
         this.name = name;
         this.description = description;
         this.assignee = assignee;
@@ -41,6 +43,8 @@ public class Ticket implements Serializable {
         this.priority = priority;
         this.spentTime = spentTime;
         this.estimatedTime = estimatedTime;
+        this.starting = starting;
+        this.deadline = deadline;
     }
 
     public String getName() {
@@ -91,20 +95,36 @@ public class Ticket implements Serializable {
         this.priority = priority;
     }
 
-    public Calendar getSpentTime() {
+    public int getSpentTime() {
         return spentTime;
     }
 
-    public void setSpentTime(Calendar spentTime) {
+    public void setSpentTime(int spentTime) {
         this.spentTime = spentTime;
     }
 
-    public Calendar getEstimatedTime() {
+    public int getEstimatedTime() {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(Calendar estimatedTime) {
+    public void setEstimatedTime(int estimatedTime) {
         this.estimatedTime = estimatedTime;
+    }
+
+    public Calendar getStarting() {
+        return starting;
+    }
+
+    public void setStarting(Calendar starting) {
+        this.starting = starting;
+    }
+
+    public Calendar getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Calendar deadline) {
+        this.deadline = deadline;
     }
 
     @Override
@@ -112,12 +132,12 @@ public class Ticket implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return name.equals(ticket.name) && Objects.equals(description, ticket.description) && Objects.equals(assignee, ticket.assignee) && Objects.equals(reporter, ticket.reporter) && status == ticket.status && priority == ticket.priority;
+        return spentTime == ticket.spentTime && estimatedTime == ticket.estimatedTime && name.equals(ticket.name) && Objects.equals(description, ticket.description) && Objects.equals(assignee, ticket.assignee) && reporter.equals(ticket.reporter) && status == ticket.status && priority == ticket.priority;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, assignee, reporter, status, priority);
+        return Objects.hash(name, description, assignee, reporter, status, priority, spentTime, estimatedTime);
     }
 
     @Override
@@ -138,11 +158,17 @@ public class Ticket implements Serializable {
         if (this.priority != null) {
             result = result + "\nPriority: " + this.priority;
         }
-        if (this.spentTime != null) {
-            result = result + "\nSpent time: " + this.spentTime.getTime();
+        if (this.spentTime != 0) {
+            result = result + "\nSpent time: " + this.spentTime;
         }
-        if (this.estimatedTime != null) {
-            result = result + "\nEstimated time: " + this.estimatedTime.getTime();
+        if (this.estimatedTime != 0) {
+            result = result + "\nEstimated time: " + this.estimatedTime;
+        }
+        if (this.starting != null) {
+            result = result + "\nStart: " + this.starting.getTime();
+        }
+        if (this.deadline != null) {
+            result = result + "\nDeadline: " + this.deadline.getTime();
         }
         return result;
     }

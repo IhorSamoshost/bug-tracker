@@ -42,13 +42,22 @@ public class TicketBuilder {
         return this;
     }
 
-    public TicketBuilder setSpentTime(Calendar spentTime){
+    public TicketBuilder setSpentTime(int spentTime){
         this.ticket.setSpentTime(spentTime);
         return this;
     }
 
-    public TicketBuilder setEstimatedTime(Calendar estimatedTime){
+    public TicketBuilder setEstimatedTime(int estimatedTime){
         this.ticket.setEstimatedTime(estimatedTime);
+        return this;
+    }
+    public TicketBuilder setStartedDate(Calendar date){
+        this.ticket.setStarting(date);
+        return this;
+    }
+
+    public TicketBuilder setDeadlineDate(Calendar date){
+        this.ticket.setDeadline(date);
         return this;
     }
 
