@@ -1,8 +1,9 @@
 package model.enums;
 
 public enum Status {
-    EXTRA_HIGH,
-    HIGH,
-    MIDDLE,
-    LOW
+    TODO,
+    IN_PROGRESS,
+    IN_CONTROL_REVIEW,
+    NEED_REFACTORING,
+    RESOLVED
 }
