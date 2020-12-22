@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class DataStorageMenu implements Menu {
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     String[] dataStorageMethods = new String[]{
             "1. Data storage in RAM",

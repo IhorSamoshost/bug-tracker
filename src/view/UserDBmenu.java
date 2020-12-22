@@ -46,7 +46,7 @@ public class UserDBmenu implements Menu {
                     break;
                 case "3":
                     Response<List<User>> findAllResponse = userService.findAll();
-                    System.out.println(findAllResponse.getResultMessage());
+                    System.out.println(findAllResponse.getResultMessage() + "\n" + findAllResponse.getData());
                     break;
                 case "4":
                     deleteSubMenu();
@@ -94,7 +94,8 @@ public class UserDBmenu implements Menu {
         System.out.println("Input name of user to find:");
         String userName = scanner.nextLine();
         Response<User> findResponse = userService.find(userName);
-        System.out.println(findResponse.getResultMessage());
+        System.out.println(findResponse.getResultMessage() + "\n" +
+        findResponse.getData());
     }
 
     private void deleteSubMenu() {
