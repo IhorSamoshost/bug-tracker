@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoInDbImpl implements UserDao {
-    private Connection conn;
+    private final Connection conn;
 
     public UserDaoInDbImpl(Connection conn) {
         this.conn = conn;
@@ -19,8 +19,9 @@ public class UserDaoInDbImpl implements UserDao {
         String password = user.getPassword();
         User checkUser = getUserByName(userName);
         if (checkUser == null) {
-            String addUserQuery = "insert into user_table (user_name, password) values ('" +
-                    userName + "', '" + password + "');";
+            String addUserQuery =
+                    String.format("insert into user_table (user_name, password) values ('%s', '%s');",
+                            userName, password);
             try (Statement stmnt = conn.createStatement()) {
                 stmnt.executeUpdate(addUserQuery);
             } catch (SQLException e) {
@@ -65,10 +66,7 @@ public class UserDaoInDbImpl implements UserDao {
                     userPassword = resultSetForSoughtUser.getString("password");
                 }
                 return userNameFromDB != null ? new User(userNameFromDB, userPassword) : null;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return null;
-            } catch (NullPointerException e) {
+            } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
                 return null;
             }
