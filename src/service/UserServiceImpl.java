@@ -21,10 +21,10 @@ public class UserServiceImpl implements UserService {
         User user = userFindResponse.getData();
         if (userFindResponse.isSuccess()) {
             return user.getPassword().equals(password)
-                    ? new Response<>(user, true, "Successful login")
+                    ? new Response<>(user, true, "Successful")
                     : new Response<>(user, false, "Wrong password");
         } else {
-            return new Response<>(user, false, "User is not found in BD");
+            return new Response<>(user, false, "User is not found in DataBase");
         }
 
     }
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     public Response<List<User>> findAll() {
         List<User> userList = userDao.getAll();
         return (userList == null)
-                ? new Response<>(userList, false, "Database not found")
+                ? new Response<>(userList, false, "DataBase not found")
                 : new Response<>(userList, true, "Successful");
 
     }
