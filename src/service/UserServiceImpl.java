@@ -4,6 +4,7 @@ import dao.UserDao;
 import model.User;
 import view.Response;
 
+import java.io.IOException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -30,32 +31,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response<User> register(User newUser) {
+    public Response<User> register(User newUser) throws IOException {
         userDao.saveUser(newUser);
         Response<User> user = find(newUser.getUserName());
         return user.isSuccess()
                 ? new Response<>(user.getData(), true, "Successful")
-                : new Response<>(user.getData(), false, "User  is not register");
+                : new Response<>(user.getData(), false, "User  is not registered");
 
     }
 
     @Override
-    public Response<User> edit(User oldUser, User newUser) {
+    public Response<User> edit(User oldUser, User newUser) throws IOException {
         userDao.updateUser(oldUser, newUser);
         Response<User> user = find(newUser.getUserName());
         return user.isSuccess()
-                ? new Response<>(user.getData(), true, "Successful  edit")
-                : new Response<>(user.getData(), false, "User  is not edit");
+                ? new Response<>(user.getData(), true, "Successful")
+                : new Response<>(user.getData(), false, "User  is not edited");
 
     }
-
 
     @Override
     public Response<User> find(String userName) {
         User user = userDao.getUserByName(userName);
         return (user == null)
                 ? new Response<>(user, false, "User  is not found")
-                : new Response<>(user, true, "Successful");
+                : new Response<>(user, true, "User found successfully");
 
     }
 
@@ -64,15 +64,16 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userDao.getAll();
         return (userList == null)
                 ? new Response<>(userList, false, "DataBase not found")
-                : new Response<>(userList, true, "Successful");
+                : new Response<>(userList, true, "DataBase found successfully");
 
     }
 
     @Override
-    public Response<User> delete(String userName) {
-        User user = userDao.deleteUser(userDao.getUserByName(userName));
+    public Response<User> delete(String userName) throws IOException {
+        userDao.deleteUser(userDao.getUserByName(userName));
+        User user = userDao.getUserByName(userName);
         return (user == null)
-                ? new Response<>(user, true, "Successful")
+                ? new Response<>(user, true, "User deleted successfully")
                 : new Response<>(user, false, "User is not found");
 
 
