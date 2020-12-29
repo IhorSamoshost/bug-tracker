@@ -2,7 +2,6 @@ package model;
 
 import model.enums.Priority;
 import model.enums.Status;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
@@ -10,8 +9,8 @@ import java.util.Objects;
 public class Ticket implements Serializable {
     private String name;
     private String description;
-    private User assignee; // must be serializable
-    private User reporter;// must be serializable
+    private User assignee;
+    private User reporter;
     private Status status;
     private Priority priority;
     private int spentTime;

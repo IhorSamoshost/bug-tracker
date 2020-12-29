@@ -1,11 +1,9 @@
 package dao;
 
 import model.Ticket;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-//Реализация операций с базой тикетов, хранящейся в текстовом файле
 
 public class TicketDaoInFileImpl implements TicketDao {
     private static final String PATH = "src/resources/tickets.txt";
