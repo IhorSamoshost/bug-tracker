@@ -3,7 +3,6 @@ package service;
 import dao.UserDao;
 import model.User;
 import view.Response;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -13,7 +12,6 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(UserDao UserDao) {
         this.userDao = userDao;
-
     }
 
     @Override

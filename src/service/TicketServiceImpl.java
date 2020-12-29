@@ -4,7 +4,6 @@ import dao.TicketDao;
 import model.Ticket;
 import model.User;
 import view.Response;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,6 @@ public class TicketServiceImpl implements TicketService {
 
     public TicketServiceImpl(TicketDao TicketDao) {
         this.ticketDao = ticketDao;
-
     }
 
     @Override

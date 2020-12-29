@@ -4,7 +4,6 @@ import dao.TicketDao;
 import model.Ticket;
 import model.User;
 import view.Response;
-
 import java.util.List;
 import java.util.Map;
 
