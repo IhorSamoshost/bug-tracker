@@ -108,10 +108,10 @@ public class TicketDBmenu implements Menu {
         while (true) {
             System.out.println("Do you want to continue? (y/n)");
             String answer = scanner.nextLine();
-            if (answer.toLowerCase().equals("n")) {
+            if (answer.equalsIgnoreCase("n")) {
                 return new Response<>(null, false, "Refusal to edit a ticket!");
             } else {
-                if (answer.toLowerCase().equals("y")) {
+                if (answer.equalsIgnoreCase("y")) {
                     break;
                 } else {
                     System.out.println("Input correct answer! Try again!");
