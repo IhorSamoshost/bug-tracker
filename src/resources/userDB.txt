@@ -1,1 +1,3 @@
-ihor:root
+admin:admin
+guest:12345
+Lion:lion
