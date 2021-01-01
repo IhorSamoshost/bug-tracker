@@ -28,17 +28,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
         return userName.equals(user.userName);
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(userName);
+
     }
 
     @Override
