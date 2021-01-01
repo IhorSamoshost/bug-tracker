@@ -67,10 +67,16 @@ public class TicketDBmenu implements Menu {
                     allTicketsResponse.getData().forEach(System.out::println);
                     break;
                 case "5":
-                    ticketService.findAllByUser(receiveUserNameSubMenu());
+                    Response<List<Ticket>> ticketsByUserResponse = ticketService.findAllByUser(receiveUserNameSubMenu());
+                    System.out.println(ticketsByUserResponse.getResultMessage());
+                    if (ticketsByUserResponse.getData() != null) {
+                        ticketsByUserResponse.getData().forEach(System.out::println);
+                    }
                     break;
                 case "6":
-                    ticketService.findEachUserMostTimeExpensiveTasks();
+                    Response<List<Ticket>> latestTasksByAssigneeResponse = ticketService.findEachUserMostTimeExpensiveTasks();
+                    System.out.println(latestTasksByAssigneeResponse.getResultMessage());
+                    latestTasksByAssigneeResponse.getData().forEach(System.out::println);
                     break;
                 case "7":
                     Response<Ticket> deleteTicketResponse = ticketService.delete(receiveTicketNameSubMenu());

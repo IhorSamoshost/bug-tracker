@@ -7,8 +7,8 @@ import service.UserService;
 import java.util.Scanner;
 
 public class LoginMenu implements Menu {
-    private Scanner scanner;
-    private UserService userService;
+    private final Scanner scanner;
+    private final UserService userService;
     private TicketService ticketService;
 
     String[] enterItems = new String[]{

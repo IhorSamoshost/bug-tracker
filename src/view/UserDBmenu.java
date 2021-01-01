@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserDBmenu implements Menu {
-    private Scanner scanner;
-    private UserService userService;
-    private TicketService ticketService;
-    private User user;
+    private final Scanner scanner;
+    private final UserService userService;
+    private final TicketService ticketService;
+    private final User user;
 
     String[] userOperations = new String[]{
             "1. Update user info",
@@ -31,8 +31,8 @@ public class UserDBmenu implements Menu {
 
     @Override
     public void show() {
-        System.out.println("\nTo select the operation with user info enter the corresponding number:");
         while (true) {
+            System.out.println("\nTo select the operation with user info enter the corresponding number: ");
             for (String op : userOperations) {
                 System.out.println(op);
             }
@@ -46,7 +46,7 @@ public class UserDBmenu implements Menu {
                     break;
                 case "3":
                     Response<List<User>> findAllResponse = userService.findAll();
-                    System.out.println(findAllResponse.getResultMessage() + "\n" + findAllResponse.getData());
+                    System.out.println(findAllResponse.getResultMessage());
                     break;
                 case "4":
                     deleteSubMenu();
@@ -95,7 +95,7 @@ public class UserDBmenu implements Menu {
         String userName = scanner.nextLine();
         Response<User> findResponse = userService.find(userName);
         System.out.println(findResponse.getResultMessage() + "\n" +
-        findResponse.getData());
+                findResponse.getData());
     }
 
     private void deleteSubMenu() {
