@@ -111,12 +111,11 @@ public class TicketDaoInFileImpl implements TicketDao {
     }
 
     private List<Ticket> getTickets() {
-        List<Ticket> tickets = null;
+        List<Ticket> tickets = new ArrayList<>();
         try (ObjectInputStream locFile = new ObjectInputStream(new FileInputStream(PATH))) {
             boolean eof = false;
             while (!eof) {
                 try {
-                    tickets = new ArrayList<>();
                     Ticket ticket = (Ticket) locFile.readObject();
                     tickets.add(ticket);
                 } catch (EOFException eofException) {
