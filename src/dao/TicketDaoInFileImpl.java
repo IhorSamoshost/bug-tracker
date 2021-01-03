@@ -1,6 +1,7 @@
 package dao;
 
 import model.Ticket;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,11 +111,12 @@ public class TicketDaoInFileImpl implements TicketDao {
     }
 
     private List<Ticket> getTickets() {
-        List<Ticket> tickets = new ArrayList<>();
+        List<Ticket> tickets = null;
         try (ObjectInputStream locFile = new ObjectInputStream(new FileInputStream(PATH))) {
             boolean eof = false;
             while (!eof) {
                 try {
+                    tickets = new ArrayList<>();
                     Ticket ticket = (Ticket) locFile.readObject();
                     tickets.add(ticket);
                 } catch (EOFException eofException) {
@@ -122,7 +124,7 @@ public class TicketDaoInFileImpl implements TicketDao {
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("There is no tickets yet");
         }
         return tickets;
     }
@@ -137,7 +139,6 @@ public class TicketDaoInFileImpl implements TicketDao {
         protected void writeStreamHeader() throws IOException {
             reset();
         }
-
     }
 }
 

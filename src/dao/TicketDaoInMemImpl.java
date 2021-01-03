@@ -1,10 +1,11 @@
 package dao;
 
 import model.Ticket;
+
 import java.util.*;
 
 public class TicketDaoInMemImpl implements TicketDao {
-    private List<Ticket> tickets = new ArrayList<>();
+    private final List<Ticket> tickets = new ArrayList<>();
 
     @Override
     public void saveTicket(Ticket ticket) {

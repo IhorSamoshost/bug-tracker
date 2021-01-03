@@ -1,9 +1,9 @@
 package dao;
 
-import model.Priority;
-import model.Status;
 import model.Ticket;
 import model.User;
+import model.enums.Priority;
+import model.enums.Status;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,23 +23,25 @@ public class TicketDaoInDbImpl implements TicketDao {
 
     @Override
     public void saveTicket(Ticket ticket) {
-        String ticketName = ticket.getTicketName();
+        String ticketName = ticket.getName();
         String description = ticket.getDescription();
         User assignee = ticket.getAssignee();
         User reporter = ticket.getReporter();
         Status status = ticket.getStatus();
         Priority priority = ticket.getPriority();
-        Calendar spentTime = ticket.getSpentTime();
-        Calendar estimatedTime = ticket.getEstimatedTime();
+        int spentTime = ticket.getSpentTime();
+        int estimatedTime = ticket.getEstimatedTime();
+        Calendar startingDate = ticket.getStartingDate();
+        Calendar deadline = ticket.getDeadline();
         Ticket checkTicket = getTicketByName(ticketName);
         if (checkTicket == null) {
             String addTicketQuery =
                     String.format("insert into bug_tracker.ticket_table (ticket_name, description," +
-                                    " assignee, reporter, status, priority, spentTime, estimatedTime)" +
-                                    " values ('%s', '%s', %d, %d, %d, %d, '%tY-%<tm-%<td', '%tY-%<tm-%<td');",
+                                    " assignee, reporter, status, priority, spent_time, estimated_time, starting_date, deadline)" +
+                                    " values ('%s', '%s', %d, %d, %d, %d, %d, %d, '%tY-%<tm-%<td', '%tY-%<tm-%<td');",
                             ticketName, description, getIdByUser(assignee), getIdByUser(reporter),
                             getIdByStatus(status), getIdByPriority(priority),
-                            spentTime.getTime(), estimatedTime.getTime());
+                            spentTime, estimatedTime, startingDate.getTime(), deadline.getTime());
             try (Statement stmnt = conn.createStatement()) {
                 stmnt.executeUpdate(addTicketQuery);
             } catch (SQLException e) {
@@ -59,8 +61,10 @@ public class TicketDaoInDbImpl implements TicketDao {
         User reporter = null;
         Status status = null;
         Priority priority = null;
-        Calendar spentTime = null;
-        Calendar estimatedTime = null;
+        int spentTime = 0;
+        int estimatedTime = 0;
+        Calendar startingDate = null;
+        Calendar deadLine = null;
         String selectTicketByNameQuery =
                 String.format("select * from bug_tracker.ticket_table where ticket_name = '%s';", ticketName);
         try (Statement stmnt = conn.createStatement()) {
@@ -72,11 +76,14 @@ public class TicketDaoInDbImpl implements TicketDao {
                 reporter = getUserById(resultSetForSoughtTicket.getInt("reporter"));
                 status = getStatusById(resultSetForSoughtTicket.getInt("status"));
                 priority = getPriorityById(resultSetForSoughtTicket.getInt("priority"));
-                spentTime = dateToCalendarConvertor(resultSetForSoughtTicket.getDate("spentTime"));
-                estimatedTime = dateToCalendarConvertor(resultSetForSoughtTicket.getDate("estimatedTime"));
+                spentTime = resultSetForSoughtTicket.getInt("spent_time");
+                estimatedTime = resultSetForSoughtTicket.getInt("estimated_time");
+                startingDate = dateToCalendarConvertor(resultSetForSoughtTicket.getDate("starting_date"));
+                deadLine = dateToCalendarConvertor(resultSetForSoughtTicket.getDate("deadline"));
             }
             return ticketNameFromDB == null ? null :
-                    new Ticket(ticketNameFromDB, description, assignee, reporter, status, priority, spentTime, estimatedTime);
+                    new Ticket(ticketNameFromDB, description, assignee, reporter, status, priority,
+                            spentTime, estimatedTime, startingDate, deadLine);
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             return null;
@@ -92,8 +99,10 @@ public class TicketDaoInDbImpl implements TicketDao {
         User reporter;
         Status status;
         Priority priority;
-        Calendar spentTime;
-        Calendar estimatedTime;
+        int spentTime;
+        int estimatedTime;
+        Calendar startingDate;
+        Calendar deadLine;
         String selectAllTicketsQuery = "select * from bug_tracker.ticket_table;";
         try (Statement stmnt = conn.createStatement()) {
             ResultSet resultSetAllTicketsFromDB = stmnt.executeQuery(selectAllTicketsQuery);
@@ -104,9 +113,12 @@ public class TicketDaoInDbImpl implements TicketDao {
                 reporter = getUserById(resultSetAllTicketsFromDB.getInt("reporter"));
                 status = getStatusById(resultSetAllTicketsFromDB.getInt("status"));
                 priority = getPriorityById(resultSetAllTicketsFromDB.getInt("priority"));
-                spentTime = dateToCalendarConvertor(resultSetAllTicketsFromDB.getDate("spentTime"));
-                estimatedTime = dateToCalendarConvertor(resultSetAllTicketsFromDB.getDate("estimatedTime"));
-                tickets.add(new Ticket(ticketName, description, assignee, reporter, status, priority, spentTime, estimatedTime));
+                spentTime = resultSetAllTicketsFromDB.getInt("spent_time");
+                estimatedTime = resultSetAllTicketsFromDB.getInt("estimated_time");
+                startingDate = dateToCalendarConvertor(resultSetAllTicketsFromDB.getDate("starting_date"));
+                deadLine = dateToCalendarConvertor(resultSetAllTicketsFromDB.getDate("deadline"));
+                tickets.add(new Ticket(ticketName, description, assignee, reporter, status, priority,
+                        spentTime, estimatedTime, startingDate, deadLine));
             }
             return tickets;
         } catch (SQLException | NullPointerException e) {
@@ -117,29 +129,36 @@ public class TicketDaoInDbImpl implements TicketDao {
 
     @Override
     public Ticket deleteTicket(Ticket ticket) {
-        String ticetName = ticket.getTicketName();
+        String ticketName = ticket.getName();
+        return deleteTicket(ticketName);
+    }
+
+    @Override
+    public Ticket deleteTicket(String ticketName) {
         String deleteTicketByNameQuery =
-                String.format("delete from bug_tracker.ticket_table where ticket_name = '%s';", ticetName);
+                String.format("delete from bug_tracker.ticket_table where ticket_name = '%s';", ticketName);
         try (Statement stmnt = conn.createStatement()) {
             stmnt.executeUpdate(deleteTicketByNameQuery);
-            return getTicketByName(ticetName);
+            return getTicketByName(ticketName);
         } catch (SQLException e) {
             e.printStackTrace();
-            return getTicketByName(ticetName);
+            return getTicketByName(ticketName);
         }
     }
 
     @Override
     public void updateTicket(Ticket oldTicket, Ticket newTicket) {
-        String oldTicketName = oldTicket.getTicketName();
-        String newTicketName = newTicket.getTicketName();
+        String oldTicketName = oldTicket.getName();
+        String newTicketName = newTicket.getName();
         String newTicketDescription = newTicket.getDescription();
         User newTicketAssignee = newTicket.getAssignee();
         User newTicketReporter = newTicket.getReporter();
         Status newTicketStatus = newTicket.getStatus();
         Priority newTicketPriority = newTicket.getPriority();
-        Calendar newTicketSpentTime = newTicket.getSpentTime();
-        Calendar newTicketEstimatedTime = newTicket.getEstimatedTime();
+        int newTicketSpentTime = newTicket.getSpentTime();
+        int newTicketEstimatedTime = newTicket.getEstimatedTime();
+        Calendar newTicketStartingDate = newTicket.getStartingDate();
+        Calendar newTicketDeadLine = newTicket.getDeadline();
         Ticket checkTicket = getTicketByName(newTicketName);
         if (checkTicket == null) {
             System.out.println("No ticket with this name in the database!");
@@ -147,11 +166,12 @@ public class TicketDaoInDbImpl implements TicketDao {
             String updateTicketQuery =
                     String.format("update ticket_table set ticket_name = '%s', description = '%s'," +
                                     " assignee = '%d', reporter = '%d', status = '%d', priority = '%d'," +
-                                    " spentTime = '%tY-%<tm-%<td', estimatedTime = '%tY-%<tm-%<td' where ticket_name = '%s';",
+                                    " spent_time = '%d', estimated_time = '%d'," +
+                                    " starting_date = '%tY-%<tm-%<td', deadline = '%tY-%<tm-%<td' where ticket_name = '%s';",
                             newTicketName, newTicketDescription, getIdByUser(newTicketAssignee),
-                            getIdByUser(newTicketReporter), getIdByStatus(newTicketStatus),
-                            getIdByPriority(newTicketPriority), newTicketSpentTime.getTime(),
-                            newTicketEstimatedTime.getTime(), oldTicketName);
+                            getIdByUser(newTicketReporter), getIdByStatus(newTicketStatus), getIdByPriority(newTicketPriority),
+                            newTicketSpentTime, newTicketEstimatedTime, newTicketStartingDate.getTime(),
+                            newTicketDeadLine.getTime(), oldTicketName);
             try (Statement stmnt = conn.createStatement()) {
                 stmnt.executeUpdate(updateTicketQuery);
             } catch (SQLException e) {

@@ -11,7 +11,7 @@ public class UserDaoInFileImpl implements UserDao {
             "resources" + File.separator + "userDB.txt";
     private final String regexUserFields = ":";
 
-    public UserDaoInFileImpl() throws FileNotFoundException {
+    public UserDaoInFileImpl() {
         loadUsersFromFile(PATH);
     }
 
@@ -51,20 +51,22 @@ public class UserDaoInFileImpl implements UserDao {
         users.add(new User(array[0], array[1]));
     }
 
-    private void loadUsersFromFile(String nameFile) throws FileNotFoundException {
-
+    private void loadUsersFromFile(String nameFile) {
         try (
                 FileReader fileReader = new FileReader(nameFile);
                 BufferedReader reader = new BufferedReader(fileReader)
         ) {
             String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
+            while ((currentLine = reader.readLine()) != null && !currentLine.isEmpty()) {
                 addUserFromLine(currentLine);
             }
-        } catch (FileNotFoundException e) {
-            throw e;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            try {
+                new File(nameFile).createNewFile();
+                loadUsersFromFile(nameFile);
+            } catch (IOException ioe1) {
+                ioe1.printStackTrace();
+            }
         }
     }
 

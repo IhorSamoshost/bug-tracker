@@ -93,16 +93,14 @@ public class UserDaoInDbImpl implements UserDao {
     }
 
     @Override
-    public User deleteUser(User user) {
+    public void deleteUser(User user) {
         String userName = user.getUserName();
         String deleteUserByNameQuery =
                 String.format("delete from user_table where user_table.user_name = '%s';", userName);
         try (Statement stmnt = conn.createStatement()) {
             stmnt.executeUpdate(deleteUserByNameQuery);
-            return getUserByName(userName);
         } catch (SQLException e) {
             e.printStackTrace();
-            return getUserByName(userName);
         }
     }
 }

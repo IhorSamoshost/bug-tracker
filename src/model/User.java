@@ -28,6 +28,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
         return userName.equals(user.userName);
     }
 
@@ -41,7 +46,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "userName='" + userName + '\'' +
+                "name='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

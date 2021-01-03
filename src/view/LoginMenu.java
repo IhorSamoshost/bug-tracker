@@ -7,9 +7,9 @@ import service.UserService;
 import java.util.Scanner;
 
 public class LoginMenu implements Menu {
-    private Scanner scanner;
-    private UserService userService;
-    private TicketService ticketService;
+    private final Scanner scanner;
+    private final UserService userService;
+    private final TicketService ticketService;
 
     String[] enterItems = new String[]{
             "1. Log in of a registered user",
@@ -71,7 +71,7 @@ public class LoginMenu implements Menu {
         System.out.println("Input your login:");
         while (true) {
             login = scanner.nextLine();
-            if (userService.getUserDao().getUserByName(login) == null) break;
+            if (userService.find(login).getData() == null) break;
             System.out.println("User with this login is already registered in the database.\n" +
                     "Try input other login:");
         }

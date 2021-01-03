@@ -62,12 +62,10 @@ public class DataStorageMenu implements Menu {
             return DriverManager
                     .getConnection("jdbc:mysql://localhost:3306/bug_tracker?serverTimezone=UTC",
                             "root", "root");
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println("ClassNotFoundException caught");
-            return null;
-        } catch (SQLException e) {
-            System.out.println("SQLException caught");
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 }

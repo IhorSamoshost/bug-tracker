@@ -5,7 +5,7 @@ import model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoInMemImpl implements UserDao{
+public class UserDaoInMemImpl implements UserDao {
     private final List<User> users = new ArrayList<>();
 
     public UserDaoInMemImpl() {
@@ -27,17 +27,17 @@ public class UserDaoInMemImpl implements UserDao{
 
     @Override
     public void saveUser(User user) {
-         users.add(user);
+        users.add(user);
     }
 
     @Override
     public void updateUser(User oldUser, User newUser) {
         int userIndex = users.indexOf(oldUser);
-        users.set(userIndex,newUser);
+        users.set(userIndex, newUser);
     }
 
     @Override
-    public void deleteUser(User user){
+    public void deleteUser(User user) {
         users.remove(user);
     }
 }

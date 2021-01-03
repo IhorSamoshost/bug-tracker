@@ -5,6 +5,7 @@ import dao.TicketDao;
 import model.Ticket;
 import model.User;
 import view.Response;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,9 @@ public interface TicketService {
 
     Response<List<Ticket>> findAllByUser(String userName);
 
-    Map<User, Response<Integer>> getUserAllEstimatedTime();
+    Response<Map<User, Integer>> getEstimatedTimeForEachAssignee();
 
-    Response<List<Ticket>> findEachUserMostTimeExpensiveTasks(int count);
+    Response<List<Ticket>> findMostTimeExpensiveTasksInDB(int count);
 
-    TicketDao getTicketDao();
+    Response<List<Ticket>> findEachUserLatestDeadlineTasks();
 }

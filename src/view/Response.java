@@ -1,9 +1,9 @@
 package view;
 
 public class Response<T> {
-    private T data;
-    private boolean success;
-    private String resultMessage;
+    private final T data;
+    private final boolean success;
+    private final String resultMessage;
 
     public Response(T data, boolean success, String resultMessage) {
         this.data = data;
