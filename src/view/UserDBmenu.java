@@ -99,7 +99,7 @@ public class UserDBmenu implements Menu {
         String newUserName;
         while (true) {
             newUserName = scanner.nextLine();
-            if (userService.find(newUserName).getData() == null) break;
+            if (userService.find(newUserName).getData() == null || oldUserName.equals(newUserName)) break;
             System.out.printf("User with name '%s' is already registered in the database.\n" +
                     "Try input other name:\n", newUserName);
         }
